@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Resume Builder</title>
+
+<!-- PDF Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.container {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  gap: 20px;
+}
+
+.form, .resume {
+  background: white;
+  padding: 20px;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  height: 70px;
+}
+
+button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.resume h2 {
+  color: #007bff;
+}
+
+.resume hr {
+  margin: 10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Resume Builder</h1>
+
+<div class="container">
+
+  <!-- FORM SECTION -->
+  <div class="form">
+    <h3>Enter Details</h3>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <textarea id="summary" placeholder="Profile Summary"></textarea>
+    <textarea id="education" placeholder="Education"></textarea>
+    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+    <textarea id="experience" placeholder="Experience"></textarea>
+
+    <button onclick="generateResume()">Generate Resume</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+  </div>
+
+  <!-- RESUME PREVIEW -->
+  <div class="resume" id="resume">
+    <h2 id="r-name">Your Name</h2>
+    <p id="r-email"></p>
+    <p id="r-phone"></p>
+    <hr>
+
+    <h3>Profile</h3>
+    <p id="r-summary"></p>
+
+    <h3>Education</h3>
+    <p id="r-education"></p>
+
+    <h3>Skills</h3>
+    <ul id="r-skills"></ul>
+
+    <h3>Experience</h3>
+    <p id="r-experience"></p>
+  </div>
+
+</div>
+
+<script>
+function generateResume() {
+  document.getElementById("r-name").innerText =
+    document.getElementById("name").value;
+
+  document.getElementById("r-email").innerText =
+    document.getElementById("email").value;
+
+  document.getElementById("r-phone").innerText =
+    document.getElementById("phone").value;
+
+  document.getElementById("r-summary").innerText =
+    document.getElementById("summary").value;
+
+  document.getElementById("r-education").innerText =
+    document.getElementById("education").value;
+
+  document.getElementById("r-experience").innerText =
+    document.getElementById("experience").value;
+
+  let skills = document.getElementById("skills").value.split(",");
+  let list = document.getElementById("r-skills");
+  list.innerHTML = "";
+
+  skills.forEach(skill => {
+    let li = document.createElement("li");
+    li.innerText = skill.trim();
+    list.appendChild(li);
+  });
+}
+
+function downloadPDF() {
+  const resume = document.getElementById("resume");
+  html2pdf().from(resume).save("My_Resume.pdf");
+}
+</script>
+
+</body>
+</html>
